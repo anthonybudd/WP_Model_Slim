@@ -122,6 +122,28 @@ To find multiple posts by ID you can us the in() method.
 $firstProducts = Product::in([1, 2, 3, 4]);
 ```
 
+# Virtual Properties
+If you would like to add virtual properties to your models, you can do this by adding a method named the virtual property's name prefixed with '_get'
+
+```php
+
+Class Product extends WP_Model_Slim{
+    ...
+
+    public $virtual = [
+        'humanWeight'
+    ];
+
+    public function _getHumanWeight()
+    {  
+        return $this->weight . 'Kg';
+    }
+}
+
+$product = Product::find(15);
+echo $product->humanWeight;
+```
+
 # Deleting
 **delete()**
 
@@ -147,83 +169,6 @@ hardDelete() will delete the post and set all of it's meta (in the database and 
 $product->hardDelete();
 ```
 
-# Helper Properties
-
-```php
-$product->title; // Returns the post's title
-
-$product->content; // Returns the post's content
-
-$product->the_content; // Returns the post's content via the 'the_content' filter
-```
-
-
-# Helper Methods
-
-```php
-Product::single(); // Returns the current model if on a single page or in the loop
-
-Product::exists(15); // Returns (bool) true or false
-
-Product::latest(); // Returns the most recent post
-
-Product::latest(10); // Returns the most recent 10 posts array(Product, Product, Product, Product)
-
-Product::count($postStatus = 'publish'); // Efficient way to get the number of models (Don't use count(WP_Model::all()))
-
-$product->postDate($format = 'd-m-Y'); // Returns the post date based on the format supplied
-
-$product->get($attribute, $default) // Get attribute from the model
-
-$product->set($attribute, $value) // Set attribute of the model
-
-$product->post() // Returns the WP_Post object (This will be the post at load, any updates to the post (title, content, etc) will not be reflected)
-
-$product->permalink() // Returns the post permalink
-
-$product->hasFeaturedImage() // Returns TRUE if a featured image has been set or FALSE if not
-
-$product->featuredImage($defaultURL) // Returns the featured image URL
-
-$product->toArray() // Returns an array representation of the model
-
-Product::asList() // Returns array of posts keyed by the post's ID
-[
-    15 => Product,
-    16 => Product,
-    17 => Product
-]
-
-// You can also specify the value of each element in the array to be meta from the model.
-Product::asList('post_title')
-[
-    15 => "Product 1",
-    16 => "Product 2",
-    17 => "Product 3"
-]
-```
-
-# Virtual Properties
-If you would like to add virtual properties to your models, you can do this by adding a method named the virtual property's name prefixed with '_get'
-
-```php
-
-Class Product extends WP_Model_Slim{
-    ...
-
-    public $virtual = [
-        'humanWeight'
-    ];
-
-    public function _getHumanWeight()
-    {  
-        return $this->weight . 'Kg';
-    }
-}
-
-$product = Product::find(15);
-echo $product->humanWeight;
-```
 
 # Default Properties
 To set default values for the attributes in your model use the $default property. The key of this array will be the attribute you wish to set a default value for and the value will be the default value.
@@ -336,4 +281,60 @@ Class Product extends WP_Model_Slim
         echo "The Model's ID is". $model->ID;
     }
 }
+```
+
+# Helper Properties
+
+```php
+$product->title; // Returns the post's title
+
+$product->content; // Returns the post's content
+
+$product->the_content; // Returns the post's content via the 'the_content' filter
+```
+
+
+# Helper Methods
+
+```php
+Product::single(); // Returns the current model if on a single page or in the loop
+
+Product::exists(15); // Returns (bool) true or false
+
+Product::latest(); // Returns the most recent post
+
+Product::latest(10); // Returns the most recent 10 posts array(Product, Product, Product, Product)
+
+Product::count($postStatus = 'publish'); // Efficient way to get the number of models (Don't use count(WP_Model::all()))
+
+$product->postDate($format = 'd-m-Y'); // Returns the post date based on the format supplied
+
+$product->get($attribute, $default) // Get attribute from the model
+
+$product->set($attribute, $value) // Set attribute of the model
+
+$product->post() // Returns the WP_Post object (This will be the post at load, any updates to the post (title, content, etc) will not be reflected)
+
+$product->permalink() // Returns the post permalink
+
+$product->hasFeaturedImage() // Returns TRUE if a featured image has been set or FALSE if not
+
+$product->featuredImage($defaultURL) // Returns the featured image URL
+
+$product->toArray() // Returns an array representation of the model
+
+Product::asList() // Returns array of posts keyed by the post's ID
+[
+    15 => Product,
+    16 => Product,
+    17 => Product
+]
+
+// You can also specify the value of each element in the array to be meta from the model.
+Product::asList('post_title')
+[
+    15 => "Product 1",
+    16 => "Product 2",
+    17 => "Product 3"
+]
 ```
