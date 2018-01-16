@@ -243,7 +243,7 @@ $product = new Product;
 echo $product->color; // black
 ```
 
-**finder()**
+# Finder
 
 The finder() method allows you to create a custom finder method, this is the best way to contain frequently used WP_Querys inside your model's class. To create a custom finder first make a method in your model named your finders name and prefixed with '_finder', this method must return an array. The array will be given directly to the constructor of a WP_Query. The results of the WP_Query will be returned by the finder() method. You can provide additional arguments to the finder method by providing an array to the second argument of the static method finder() as shown below ('heavyWithArgs').
 
